@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 version=$(grep -m 1 "<version>.*</version>" pom.xml | sed -n 's/.*>\(.*\)-SNAPSHOT.*/\1/p')
 elasticsearch_plugin_version=$(grep -m 1 "<version>.*</version>" elasticsearch-analysis-mecab-ko/pom.xml | sed -n 's/.*>\(.*\)-SNAPSHOT.*/\1/p')
