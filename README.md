@@ -1,3 +1,5 @@
+![build](https://github.com/uberple/mecab-ko-lucene-analyzer/workflows/build/badge.svg)
+
 # mecab-ko-lucene-analyzer
 
 ## 소개
@@ -55,7 +57,7 @@ __주의 사항__
 - OpenJDK를 사용하시는 경우, 최적화 옵션을 -O나 -O1로 고쳐야 합니다. [mecab-ko-lucene-analyzer OpenJDK에서 사용하기](http://eunjeon.blogspot.kr/2013/04/mecab-ko-lucene-analyzer-openjdk.html) 참조
 
 ### mecab-ko-lucene-analyzer 다운로드 및 설치
-[mecab-ko-lucene-analyzer 다운로드 페이지](https://bitbucket.org/eunjeon/mecab-ko-lucene-analyzer/downloads)에서 `mecab-ko-lucene-analyzer-XX.tar.gz`의 최신 버전을 다운 받아 압축을 풀면 두개의 jar파일이 있습니다. 
+[mecab-ko-lucene-analyzer 다운로드 페이지](https://bitbucket.org/eunjeon/mecab-ko-lucene-analyzer/downloads)에서 `mecab-ko-lucene-analyzer-XX.tar.gz`의 최신 버전을 다운 받아 압축을 풀면 두개의 jar파일이 있습니다.
 
 - mecab-ko-mecab-loader-XX.jar: System classpath에 복사합니다. (ex: `[solr 디렉터리]/server/lib/ext`)
 - mecab-ko-lucene-analyzer-XX.jar: Solr contrib 디렉터리에 디렉터리를 생성후 복사합니다. (ex: `[solr 디렉터리]/contrib/eunjeon/lib`)
@@ -118,7 +120,7 @@ __주의 사항__
     <!-- Korean -->
     <dynamicField name="*_txt_ko" type="text_ko" indexed="true" stored="true"/>
     <fieldType name="text_ko" class="solr.TextField" positionIncrementGap="100">
-      <analyzer> 
+      <analyzer>
         <tokenizer class="org.bitbucket.eunjeon.mecab_ko_lucene_analyzer.StandardTokenizerFactory" compoundNounMinLength="3"/>
       </analyzer>
     </fieldType>

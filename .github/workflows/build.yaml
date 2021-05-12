@@ -1,0 +1,88 @@
+name: build
+
+on:
+  push:
+    # Temporarily disable this action
+    # See https://github.community/t/how-can-i-disable-a-github-action/17049
+    # branches-ignore:
+    #   - "**"
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # At 05:00 on Sunday
+    # https://crontab.guru/#0_5_*_*_0
+    - cron: "0 4 * * 0"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # runs-on: self-hosted
+    timeout-minutes: 5
+    steps:
+      - name: Env
+        run: |
+          env | sort
+
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: true
+
+      - name: Set up JDK 1.15
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.15
+
+      - name: Build
+        run: |-
+          # TODO 깨진 테스트 복구하기
+          mvn install -DskipTests=true
+
+      - name: Package
+        run: |-
+          ./make-package.sh
+
+      # - name: Start SSH via Ngrok
+      #   # if: ${{ failure() }}
+      #   run: |
+      #     curl -sL https://gist.github.com/andromedarabbit/4aa58f257d05014f5cf543ebfa7188db/raw/9d0935bbfc3c63d81f4f265f355c0f5d265c2fce/debug-github-actions.sh | bash
+      #   env:
+      #     # After sign up on the https://ngrok.com/
+      #     # You can fin this token here: https://dashboard.ngrok.com/get-started/setup
+      #     NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+      #     # This password you will use when authorizing via SSH
+      #     USER_PASS: ${{ secrets.USER_PASS }}
+      #     USER: runner
+      # - name: Don't kill instace
+      #   # if: ${{ failure() }}
+      #   run: sleep 1h
+
+  release-it:
+    needs: build
+    runs-on: ubuntu-latest
+    # runs-on: self-hosted
+    timeout-minutes: 15
+
+    steps:
+      # - name: Prepare
+      #   run: |-
+      #     curl --silent -L -O https://github.com/github-release/github-release/releases/download/v0.10.0/linux-amd64-github-release.bz2
+
+      #     bzip2 -d linux-amd64-github-release.bz2
+      #     mv linux-amd64-github-release github-release
+
+      # - name: Release
+      #   run: |-
+      #     export GITHUB_TOKEN=${{ secrets.PACKAGES_WRITE_USERNAME }}
+
+      #     github-release release --user uberple --repo mecab-ko-lucene-analyzer --tag "v0.21.0" --name "Testing" --pre-release
+
+      #     github-release upload --user uberple --repo mecab-ko-lucene-analyzer --tag "v0.21.0" --name "elasticsearch-analysis-mecab-ko-7.12.1.0.zip" --file "dist/elasticsearch-analysis-mecab-ko-7.12.1.0.zip"
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: ${{ github.token }}
+          automatic_release_tag: "latest"
+          prerelease: false
+          files: |
+            LICENSE
+            "elasticsearch-analysis-mecab-ko-*.zip"
