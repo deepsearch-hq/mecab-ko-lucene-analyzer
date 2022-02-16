@@ -76,7 +76,7 @@ jobs:
 
       #     github-release release --user uberple --repo mecab-ko-lucene-analyzer --tag "v0.21.0" --name "Testing" --pre-release
 
-      #     github-release upload --user uberple --repo mecab-ko-lucene-analyzer --tag "v0.21.0" --name "elasticsearch-analysis-mecab-ko-7.12.1.0.zip" --file "dist/elasticsearch-analysis-mecab-ko-7.12.1.0.zip"
+      #     github-release upload --user uberple --repo mecab-ko-lucene-analyzer --tag "v0.21.0" --name "elasticsearch-analysis-mecab-ko-7.17.0.0.zip" --file "dist/elasticsearch-analysis-mecab-ko-7.17.0.0.zip"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
